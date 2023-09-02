@@ -35,12 +35,31 @@ public class HomePage {
     @FindBy(className = "inventory_details_price")
     WebElement productPrice;
 
+    @FindBy(className = "social_twitter")
+    WebElement twitter;
+
+    @FindBy(className = "social_facebook")
+    WebElement facebook;
+
+    @FindBy(className = "social_linkedin")
+    WebElement linkedin;
+
     List<String> addedProducts = new ArrayList<>();
 
     public List<String> AddedProducts(){
         return  addedProducts;
     }
 
+
+    public void clickOnTwitterButton(){
+        twitter.click();
+    }
+    public void clickOnFacebookButton(){
+        facebook.click();
+    }
+    public void clickOnLinkedInButton(){
+        linkedin.click();
+    }
     public HomePage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);

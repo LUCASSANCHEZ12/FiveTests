@@ -1,7 +1,13 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.*;
 import utilities.DriverManager;
+
+import java.time.Duration;
+import java.util.Set;
 
 public class FiveTests extends BaseTest {
 
@@ -136,5 +142,71 @@ public class FiveTests extends BaseTest {
         buyPage.setPostalcodeTextBox("000");
         buyPage.clickContinueButton();
         Thread.sleep(2000);
+    }
+
+    @Test
+    public void verifyTwitterLink() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver().driver);
+        loginPage.setUserNameTextBox("standard_user");
+        loginPage.setPasswordTextBox("secret_sauce");
+        loginPage.clickOnLoginButton();
+
+        HomePage homePage = new HomePage(DriverManager.getDriver().driver);
+        homePage.clickOnTwitterButton();
+
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver().driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        String actualwindow = DriverManager.getDriver().driver.getWindowHandle();
+        Set<String>windows = DriverManager.getDriver().driver.getWindowHandles();
+        windows.remove(actualwindow);
+        DriverManager.getDriver().driver.switchTo().window(windows.iterator().next());
+
+        String currentURL = DriverManager.getDriver().driver.getCurrentUrl();
+        Assertions.assertEquals("https://twitter.com/saucelabs", currentURL);
+    }
+
+    @Test
+    public void verifyFacebookLink() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver().driver);
+        loginPage.setUserNameTextBox("standard_user");
+        loginPage.setPasswordTextBox("secret_sauce");
+        loginPage.clickOnLoginButton();
+
+        HomePage homePage = new HomePage(DriverManager.getDriver().driver);
+        homePage.clickOnFacebookButton();
+
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver().driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        String actualwindow = DriverManager.getDriver().driver.getWindowHandle();
+        Set<String>windows = DriverManager.getDriver().driver.getWindowHandles();
+        windows.remove(actualwindow);
+        DriverManager.getDriver().driver.switchTo().window(windows.iterator().next());
+
+        String currentURL = DriverManager.getDriver().driver.getCurrentUrl();
+        Assertions.assertEquals("https://www.facebook.com/saucelabs", currentURL);
+    }
+
+    @Test
+    public void verifyLinkedInLink() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver().driver);
+        loginPage.setUserNameTextBox("standard_user");
+        loginPage.setPasswordTextBox("secret_sauce");
+        loginPage.clickOnLoginButton();
+
+        HomePage homePage = new HomePage(DriverManager.getDriver().driver);
+        homePage.clickOnLinkedInButton();
+
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver().driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        String actualwindow = DriverManager.getDriver().driver.getWindowHandle();
+        Set<String>windows = DriverManager.getDriver().driver.getWindowHandles();
+        windows.remove(actualwindow);
+        DriverManager.getDriver().driver.switchTo().window(windows.iterator().next());
+
+        String currentURL = DriverManager.getDriver().driver.getCurrentUrl();
+        Assertions.assertEquals("https://www.linkedin.com/company/sauce-labs/", currentURL);
     }
 }
